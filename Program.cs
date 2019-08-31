@@ -36,14 +36,14 @@ namespace restaurantCalculator
                 List<int> negative = new List<int>();
                 numberStrings.ForEach(item => {
                     if (int.TryParse(item.Trim(), out int number) == false) { // deny invalid number, including float
-                        return;
+                        number = 0;
                     }
                     if (number < 0) { // deny negative number
                         negative.Add(number);
                         return;
                     }
                     if (number > 1000) { // ignore number > 1000
-                        return;
+                        number = 0;
                     }
                     numberList.Add(number);
                 });
@@ -57,8 +57,13 @@ namespace restaurantCalculator
 
                 // calculate sum
                 int sum = 0; 
-                numberList.ForEach(item => sum+=item);
-                Console.WriteLine(sum);
+                string sumEquation = "";
+                numberList.ForEach(item => {
+                    sumEquation += $"{item}+";
+                    sum+=item;
+                });
+                sumEquation = $"{sumEquation.Remove(sumEquation.Length-1, 1)} = {sum}";
+                Console.WriteLine(sumEquation);
             }
         }
 
