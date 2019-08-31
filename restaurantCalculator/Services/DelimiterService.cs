@@ -65,7 +65,11 @@ namespace restaurantCalculator {
         /// <returns>part of the string that defines calculation to be processed</returns>
         public string GetCalculationString(string input) {
             string customDelimiterString = GetCustomDelimiterString(input);
-            return input.Substring($"{customDelimiterString}\\n".Length);
+            if (string.IsNullOrEmpty(customDelimiterString)) {
+                return input;
+            } else {
+                return input.Substring($"{customDelimiterString}\\n".Length);
+            }
         }
 
         /// <summary>

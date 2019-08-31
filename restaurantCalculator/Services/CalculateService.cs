@@ -8,7 +8,26 @@ namespace restaurantCalculator {
         public bool AllowNegative {get; set;} = false;
 
         private string Calculate(List<int> numbers, string operation) {
-            numbers = ProcessNumberList(numbers);
+            string operationName = "";
+            switch(operation) {
+                default: // default is sum
+                case "+":
+                    numbers = ProcessNumberList(numbers, false);
+                    operationName="sum";
+                    break;
+                case "-":
+                    numbers = ProcessNumberList(numbers, false);
+                    operationName="subtract";
+                    break;
+                case "*":
+                    numbers = ProcessNumberList(numbers, true);
+                    operationName="multiply";
+                    break;
+                case "/":
+                    numbers = ProcessNumberList(numbers, true);
+                    operationName="divine";
+                    break;
+            }
             float result = 0; 
             string equation = "";
 
@@ -28,15 +47,6 @@ namespace restaurantCalculator {
                 }
             }
 
-            // create report string
-            string operationName = "";
-            switch(operation) {
-                default: // default is sum
-                case "+": operationName="sum: "; break;
-                case "-": operationName="substract: "; break;
-                case "*": operationName="multiply: "; break;
-                case "/": operationName="divine: "; break;
-            }
             equation = $"{operationName}: {equation.Remove(equation.Length-1, 1)} = {result}";
             return equation;
         }
@@ -70,19 +80,23 @@ namespace restaurantCalculator {
             return numbers;
         }
 
-        private List<int> UpperBoundFilter(List<int> numbers) {
+        private List<int> UpperBoundFilter(List<int> numbers, bool forMultiplication) {
             return numbers.Select(item => {
                 if (item > UpperBound) {
-                    return 0;
+                    if (forMultiplication) {
+                        return 1;
+                    } else {
+                        return 0;
+                    }
                 } else {
                     return item;
                 }
             }).ToList();
         }
 
-        private List<int> ProcessNumberList(List<int> numbers) {
+        private List<int> ProcessNumberList(List<int> numbers, bool forMultiplication) {
             numbers = NegativeFilter(numbers);
-            numbers = UpperBoundFilter(numbers);            
+            numbers = UpperBoundFilter(numbers, forMultiplication);            
             return numbers;
         }
     }

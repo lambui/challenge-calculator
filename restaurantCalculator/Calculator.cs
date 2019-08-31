@@ -75,26 +75,19 @@ namespace restaurantCalculator {
             return delimiterList;
         }
         
-        public Calculator Calculate(CalculateOperation operation) {
+        public string Calculate(CalculateOperation operation) {
             // calculate sum
             switch (operation) {
+                default: // default is ADD
                 case CalculateOperation.ADD: 
-                    Console.WriteLine(_calService.Sum(numberSequence)); 
-                    break;
+                    return _calService.Sum(numberSequence);
                 case CalculateOperation.SUBSTRACT: 
-                    Console.WriteLine(_calService.Subtract(numberSequence)); 
-                    break;
+                    return _calService.Subtract(numberSequence);
                 case CalculateOperation.MULTIPLY: 
-                    Console.WriteLine(_calService.Multiply(numberSequence)); 
-                    break;
+                    return _calService.Multiply(numberSequence);
                 case CalculateOperation.DIVINE: 
-                    Console.WriteLine(_calService.Divine(numberSequence)); 
-                    break;
-                default: 
-                    Console.WriteLine(_calService.Sum(numberSequence)); 
-                    break;
+                    return _calService.Divine(numberSequence);
             }
-            return this;
         }
     }
 }

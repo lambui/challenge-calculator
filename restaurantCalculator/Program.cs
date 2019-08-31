@@ -25,11 +25,12 @@ namespace restaurantCalculator
                 cal .SetAlternateDelimiter(string.IsNullOrEmpty(alDelim) ? "\\n" : alDelim)
                     .AllowNegative(allowNegative.ToLower() == "y" ? true : false)
                     .SetUpperBound(string.IsNullOrEmpty(upperBound) ? 1000 : int.Parse(upperBound))
-                    .SetStringSequence(input)
-                    .Calculate(Calculator.CalculateOperation.ADD)
-                    .Calculate(Calculator.CalculateOperation.SUBSTRACT)
-                    .Calculate(Calculator.CalculateOperation.MULTIPLY)
-                    .Calculate(Calculator.CalculateOperation.DIVINE);
+                    .SetStringSequence(input);
+                    
+                Console.WriteLine(cal.Calculate(Calculator.CalculateOperation.ADD));
+                Console.WriteLine(cal.Calculate(Calculator.CalculateOperation.SUBSTRACT));
+                Console.WriteLine(cal.Calculate(Calculator.CalculateOperation.MULTIPLY));
+                Console.WriteLine(cal.Calculate(Calculator.CalculateOperation.DIVINE));
             }
         }
     }    
