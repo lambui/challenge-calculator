@@ -7,16 +7,54 @@ namespace restaurantCalculator {
         public int UpperBound {get; set;} = 1000;
         public bool AllowNegative {get; set;} = false;
 
-        public string Sum(List<int> numbers) {
+        private string Calculate(List<int> numbers, string operation) {
             numbers = ProcessNumberList(numbers);
-            int sum = 0; 
-            string sumEquation = "";
-            numbers.ForEach(item => {
-                sumEquation += $"{item}+";
-                sum+=item;
-            });
-            sumEquation = $"{sumEquation.Remove(sumEquation.Length-1, 1)} = {sum}";
-            return sumEquation;
+            float result = 0; 
+            string equation = "";
+
+            // calculate
+            for (int i = 0; i < numbers.Count; i++) {
+                equation += $"{numbers[i]}{operation}";
+                if (i == 0) {
+                    result = numbers[i];
+                } else {
+                    switch(operation) {
+                        default: // default is sum
+                        case "+": result+=numbers[i]; break;
+                        case "-": result-=numbers[i]; break;
+                        case "*": result*=numbers[i]; break;
+                        case "/": result/=numbers[i]; break;
+                    }
+                }
+            }
+
+            // create report string
+            string operationName = "";
+            switch(operation) {
+                default: // default is sum
+                case "+": operationName="sum: "; break;
+                case "-": operationName="substract: "; break;
+                case "*": operationName="multiply: "; break;
+                case "/": operationName="divine: "; break;
+            }
+            equation = $"{operationName}: {equation.Remove(equation.Length-1, 1)} = {result}";
+            return equation;
+        }
+
+        public string Sum(List<int> numbers) {
+            return Calculate(numbers, "+");
+        }
+
+        public string Subtract(List<int> numbers) {
+            return Calculate(numbers, "-");
+        }
+
+        public string Multiply(List<int> numbers) {
+            return Calculate(numbers, "*");
+        }
+
+        public string Divine(List<int> numbers) {
+            return Calculate(numbers, "/");
         }
 
         private List<int> NegativeFilter(List<int> numbers) {

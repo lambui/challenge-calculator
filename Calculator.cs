@@ -5,7 +5,7 @@ using System.Linq;
 namespace restaurantCalculator {
     public class Calculator {
         public enum CalculateOperation {
-            ADD, SUBSTRACT, MULTIPLY, DIVISION
+            ADD, SUBSTRACT, MULTIPLY, DIVINE
         }
         public string stringSequence {get; private set;} = "";
         private List<int> numberSequence;
@@ -75,12 +75,26 @@ namespace restaurantCalculator {
             return delimiterList;
         }
         
-        public string Calculate(CalculateOperation operation) {
+        public Calculator Calculate(CalculateOperation operation) {
             // calculate sum
             switch (operation) {
-                case CalculateOperation.ADD: return _calService.Sum(numberSequence);
-                default: return _calService.Sum(numberSequence);
+                case CalculateOperation.ADD: 
+                    Console.WriteLine(_calService.Sum(numberSequence)); 
+                    break;
+                case CalculateOperation.SUBSTRACT: 
+                    Console.WriteLine(_calService.Subtract(numberSequence)); 
+                    break;
+                case CalculateOperation.MULTIPLY: 
+                    Console.WriteLine(_calService.Multiply(numberSequence)); 
+                    break;
+                case CalculateOperation.DIVINE: 
+                    Console.WriteLine(_calService.Divine(numberSequence)); 
+                    break;
+                default: 
+                    Console.WriteLine(_calService.Sum(numberSequence)); 
+                    break;
             }
+            return this;
         }
     }
 }

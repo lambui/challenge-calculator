@@ -16,10 +16,11 @@ namespace restaurantCalculator
                 Console.Write("Enter string: ");
                 string input = Console.ReadLine();
 
-                string output = cal .SetStringSequence(input)
-                                    .Calculate(Calculator.CalculateOperation.ADD);
-
-                Console.WriteLine(output);
+                cal .SetStringSequence(input)
+                    .Calculate(Calculator.CalculateOperation.ADD)
+                    .Calculate(Calculator.CalculateOperation.SUBSTRACT)
+                    .Calculate(Calculator.CalculateOperation.MULTIPLY)
+                    .Calculate(Calculator.CalculateOperation.DIVINE);
             }
         }
     }    
