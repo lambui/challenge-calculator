@@ -11,6 +11,23 @@ namespace restaurantCalculator
             Console.Write("Enter string: ");
             string input = Console.ReadLine();
 
+            // parse custom delimeter
+            string customDelimeter = "";
+            if (input.StartsWith("//")) {
+                List<string> inputParts = input.Split("\\n").ToList();
+                string inputDelimeter = "";
+                if (inputParts.Count > 1) {
+                    inputDelimeter = inputParts[0];
+                    input = input.Remove(0, inputDelimeter.Length + "\\n".Length);
+                }
+                customDelimeter = inputDelimeter.Remove(0, "//".Length);
+                if (customDelimeter.Length > 1) {
+                    throw new Exception("Custom delimeter length is too long.");
+                }
+            }
+
+            // format input
+            input = input.Replace(customDelimeter, ","); // apply custom delimeter
             input = input.Replace("\\n", ","); // support newline (literal \n) as delimeter
             List<string> numberStrings = input.Split(",").ToList();
 
