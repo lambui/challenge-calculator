@@ -13,19 +13,19 @@ namespace restaurantCalculator
                 string input = Console.ReadLine();
 
                 // parse custom delimeter
-                List<string> customDelimeters = new List<string>();
+                List<string> customDelimiters = new List<string>();
                 if (input.StartsWith("//")) {
                     List<string> inputParts = input.Split("\\n").ToList();
-                    string inputDelimeter = "";
+                    string inputDelimiter = "";
                     if (inputParts.Count > 1) {
-                        inputDelimeter = inputParts[0];
-                        input = input.Remove(0, inputDelimeter.Length + "\\n".Length);
+                        inputDelimiter = inputParts[0];
+                        input = input.Remove(0, inputDelimiter.Length + "\\n".Length);
                     }
-                    customDelimeters = GetDelimeters(inputDelimeter.Remove(0, "//".Length));
+                    customDelimiters = GetDelimiters(inputDelimiter.Remove(0, "//".Length));
                 }
 
                 // format input
-                customDelimeters.ForEach(item => {
+                customDelimiters.ForEach(item => {
                     input = input.Replace(item, ",");
                 });
                 input = input.Replace("\\n", ","); // support newline (literal \n) as delimeter
@@ -68,21 +68,21 @@ namespace restaurantCalculator
         }
 
         /// <summary>
-        /// Extract list of custom delimeters from string with following format
+        /// Extract list of custom delimiters from string with following format
         /// <code>
-        /// {single-char-delimeter}
+        /// {single-char-delimiter}
         /// </code>
         /// or
         /// <code>
-        /// [{delimeter-1}][{delimeter-2}]...[{delimeter-n}]
+        /// [{delimiter-1}][{delimiter-2}]...[{delimiter-n}]
         /// </code>
         /// </summary>
-        /// <param name="input">string sequence containing custom delimeter data</param>
-        /// <returns>list of delimeters</returns>
-        public static List<string> GetDelimeters(string input) {
-            List<string> delimeters = new List<string>();
+        /// <param name="input">string sequence containing custom delimiter data</param>
+        /// <returns>list of delimiters</returns>
+        public static List<string> GetDelimiters(string input) {
+            List<string> delimiters = new List<string>();
             if (input.Length == 1) {
-                delimeters.Add(input);
+                delimiters.Add(input);
             } else {
                 string[] parts = input.Split("[");
                 foreach (string part in parts) {
@@ -90,13 +90,13 @@ namespace restaurantCalculator
                         continue;
                     }
                     if (part.EndsWith("]")) {
-                        delimeters.Add(part.Remove(part.Length - 1, 1));
+                        delimiters.Add(part.Remove(part.Length - 1, 1));
                     } else {
                         throw new Exception("Custom delimeter format is incorrect.");
                     }
                 }
             }
-            return delimeters;
+            return delimiters;
         }
     }    
 }
