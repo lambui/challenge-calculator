@@ -12,14 +12,26 @@ namespace restaurantCalculator {
 
         private IDelimiterService _deliService;
         private IParseService _parseService;
+        private ICalculateService _calService;
 
-        public Calculator(IDelimiterService deliService, IParseService parseService) {
+        public Calculator(IDelimiterService deliService, IParseService parseService, ICalculateService calService) {
             _deliService = deliService;
             _parseService = parseService;
+            _calService = calService;
         }
 
         public Calculator SetAlternateDelimiter(string input) {
             _deliService.AlternateDelimiter = input;
+            return this;
+        }
+
+        public Calculator AllowNegative(bool allow) {
+            _calService.AllowNegative = allow;
+            return this;
+        }
+
+        public Calculator SetUpperBound(int upperBound) {
+            _calService.UpperBound = upperBound;
             return this;
         }
 
@@ -62,40 +74,12 @@ namespace restaurantCalculator {
             }
             return delimiterList;
         }
-
-        /// <summary>
-        /// Get list of negative numbers from list of numbers.
-        /// </summary>
-        /// <param name="numberList">list of numbers</param>
-        /// <returns>list containing negative numbers</returns>
-        private List<int> GetNegativeNumberList(List<int> numberList) {
-            return numberList.Where(item => item < 0).ToList();
-        }
-
-        private string Sum(List<int> numberList) {
-            int sum = 0; 
-            string sumEquation = "";
-            numberList.ForEach(item => {
-                sumEquation += $"{item}+";
-                sum+=item;
-            });
-            sumEquation = $"{sumEquation.Remove(sumEquation.Length-1, 1)} = {sum}";
-            return sumEquation;
-        }
         
         public string Calculate(CalculateOperation operation) {
-            // throw error for every negative numbers
-            List<int> negative = GetNegativeNumberList(numberSequence);
-            if (negative.Count > 0) {
-                string error = "Negative number(s) provided: ";
-                negative.ForEach(item => error += item + " "); 
-                throw new Exception(error);
-            }
-
             // calculate sum
             switch (operation) {
-                case CalculateOperation.ADD: return Sum(numberSequence);
-                default: return Sum(numberSequence);
+                case CalculateOperation.ADD: return _calService.Sum(numberSequence);
+                default: return _calService.Sum(numberSequence);
             }
         }
     }
