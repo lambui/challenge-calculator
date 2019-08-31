@@ -16,11 +16,13 @@ namespace restaurantCalculator
 
             // parse string into numbers to perform operation
             List<int> numberList = new List<int>();
+            List<int> negative = new List<int>();
             numberStrings.ForEach(item => {
                 if (int.TryParse(item.Trim(), out int number) == false) { // deny invalid number, including float
                     return;
                 }
-                if (number <= 0) { // deny negative number
+                if (number < 0) { // deny negative number
+                    negative.Add(number);
                     return;
                 }
                 if (number > 1000) { // ignore number > 1000
@@ -28,6 +30,13 @@ namespace restaurantCalculator
                 }
                 numberList.Add(number);
             });
+
+            // throw error for every negative numbers
+            if (negative.Count > 0) {
+                string error = "Negative number(s) provided: ";
+                negative.ForEach(item => error += item + " "); 
+                throw new Exception(error);
+            }
 
             // calculate sum
             int sum = 0; 
