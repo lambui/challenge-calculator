@@ -11,6 +11,7 @@ namespace restaurantCalculator
             Console.Write("Enter string: ");
             string input = Console.ReadLine();
 
+            input = input.Replace("\\n", ","); // support newline (literal \n) as delimeter
             List<string> numberStrings = input.Split(",").ToList();
 
             // parse string into numbers to perform operation
