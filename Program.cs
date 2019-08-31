@@ -22,7 +22,11 @@ namespace restaurantCalculator
                 }
                 customDelimeter = inputDelimeter.Remove(0, "//".Length);
                 if (customDelimeter.Length > 1) {
-                    throw new Exception("Custom delimeter length is too long.");
+                    if (customDelimeter.StartsWith("[") && customDelimeter.EndsWith("]")) { // support multiple-char custom delimeter
+                        customDelimeter = customDelimeter.Substring(1, customDelimeter.Length - "[]".Length);
+                    } else {
+                        throw new Exception("Custom delimeter format is incorrect.");
+                    }
                 }
             }
 
