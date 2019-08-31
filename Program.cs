@@ -8,56 +8,58 @@ namespace restaurantCalculator
     {
         static void Main(string[] args)
         {
-            Console.Write("Enter string: ");
-            string input = Console.ReadLine();
+            while(true) { // Allow the application to process entered entries until Ctrl+C is used
+                Console.Write("Enter string: ");
+                string input = Console.ReadLine();
 
-            // parse custom delimeter
-            List<string> customDelimeters = new List<string>();
-            if (input.StartsWith("//")) {
-                List<string> inputParts = input.Split("\\n").ToList();
-                string inputDelimeter = "";
-                if (inputParts.Count > 1) {
-                    inputDelimeter = inputParts[0];
-                    input = input.Remove(0, inputDelimeter.Length + "\\n".Length);
+                // parse custom delimeter
+                List<string> customDelimeters = new List<string>();
+                if (input.StartsWith("//")) {
+                    List<string> inputParts = input.Split("\\n").ToList();
+                    string inputDelimeter = "";
+                    if (inputParts.Count > 1) {
+                        inputDelimeter = inputParts[0];
+                        input = input.Remove(0, inputDelimeter.Length + "\\n".Length);
+                    }
+                    customDelimeters = GetDelimeters(inputDelimeter.Remove(0, "//".Length));
                 }
-                customDelimeters = GetDelimeters(inputDelimeter.Remove(0, "//".Length));
+
+                // format input
+                customDelimeters.ForEach(item => {
+                    input = input.Replace(item, ",");
+                });
+                input = input.Replace("\\n", ","); // support newline (literal \n) as delimeter
+                List<string> numberStrings = input.Split(",").ToList();
+
+                // parse string into numbers to perform operation
+                List<int> numberList = new List<int>();
+                List<int> negative = new List<int>();
+                numberStrings.ForEach(item => {
+                    if (int.TryParse(item.Trim(), out int number) == false) { // deny invalid number, including float
+                        return;
+                    }
+                    if (number < 0) { // deny negative number
+                        negative.Add(number);
+                        return;
+                    }
+                    if (number > 1000) { // ignore number > 1000
+                        return;
+                    }
+                    numberList.Add(number);
+                });
+
+                // throw error for every negative numbers
+                if (negative.Count > 0) {
+                    string error = "Negative number(s) provided: ";
+                    negative.ForEach(item => error += item + " "); 
+                    throw new Exception(error);
+                }
+
+                // calculate sum
+                int sum = 0; 
+                numberList.ForEach(item => sum+=item);
+                Console.WriteLine(sum);
             }
-
-            // format input
-            customDelimeters.ForEach(item => {
-                input = input.Replace(item, ",");
-            });
-            input = input.Replace("\\n", ","); // support newline (literal \n) as delimeter
-            List<string> numberStrings = input.Split(",").ToList();
-
-            // parse string into numbers to perform operation
-            List<int> numberList = new List<int>();
-            List<int> negative = new List<int>();
-            numberStrings.ForEach(item => {
-                if (int.TryParse(item.Trim(), out int number) == false) { // deny invalid number, including float
-                    return;
-                }
-                if (number < 0) { // deny negative number
-                    negative.Add(number);
-                    return;
-                }
-                if (number > 1000) { // ignore number > 1000
-                    return;
-                }
-                numberList.Add(number);
-            });
-
-            // throw error for every negative numbers
-            if (negative.Count > 0) {
-                string error = "Negative number(s) provided: ";
-                negative.ForEach(item => error += item + " "); 
-                throw new Exception(error);
-            }
-
-            // calculate sum
-            int sum = 0; 
-            numberList.ForEach(item => sum+=item);
-            Console.WriteLine(sum);
         }
 
         /// <summary>
