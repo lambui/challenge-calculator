@@ -16,9 +16,6 @@ namespace restaurantCalculator {
                 if (int.TryParse(item.Trim(), out int number) == false) { // deny invalid number, including float
                     number = 0;
                 }
-                if (number > 1000) { // ignore number > 1000
-                    number = 0;
-                }
                 numberList.Add(number);
             });
             return numberList;
