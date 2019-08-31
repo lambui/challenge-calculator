@@ -12,7 +12,7 @@ namespace restaurantCalculator
             string input = Console.ReadLine();
 
             // parse custom delimeter
-            string customDelimeter = "";
+            List<string> customDelimeters = new List<string>();
             if (input.StartsWith("//")) {
                 List<string> inputParts = input.Split("\\n").ToList();
                 string inputDelimeter = "";
@@ -20,18 +20,13 @@ namespace restaurantCalculator
                     inputDelimeter = inputParts[0];
                     input = input.Remove(0, inputDelimeter.Length + "\\n".Length);
                 }
-                customDelimeter = inputDelimeter.Remove(0, "//".Length);
-                if (customDelimeter.Length > 1) {
-                    if (customDelimeter.StartsWith("[") && customDelimeter.EndsWith("]")) { // support multiple-char custom delimeter
-                        customDelimeter = customDelimeter.Substring(1, customDelimeter.Length - "[]".Length);
-                    } else {
-                        throw new Exception("Custom delimeter format is incorrect.");
-                    }
-                }
+                customDelimeters = GetDelimeters(inputDelimeter.Remove(0, "//".Length));
             }
 
             // format input
-            input = input.Replace(customDelimeter, ","); // apply custom delimeter
+            customDelimeters.ForEach(item => {
+                input = input.Replace(item, ",");
+            });
             input = input.Replace("\\n", ","); // support newline (literal \n) as delimeter
             List<string> numberStrings = input.Split(",").ToList();
 
@@ -64,5 +59,37 @@ namespace restaurantCalculator
             numberList.ForEach(item => sum+=item);
             Console.WriteLine(sum);
         }
-    }
+
+        /// <summary>
+        /// Extract list of custom delimeters from string with following format
+        /// <code>
+        /// {single-char-delimeter}
+        /// </code>
+        /// or
+        /// <code>
+        /// [{delimeter-1}][{delimeter-2}]...[{delimeter-n}]
+        /// </code>
+        /// </summary>
+        /// <param name="input">string sequence containing custom delimeter data</param>
+        /// <returns>list of delimeters</returns>
+        public static List<string> GetDelimeters(string input) {
+            List<string> delimeters = new List<string>();
+            if (input.Length == 1) {
+                delimeters.Add(input);
+            } else {
+                string[] parts = input.Split("[");
+                foreach (string part in parts) {
+                    if (string.IsNullOrEmpty(part)) {
+                        continue;
+                    }
+                    if (part.EndsWith("]")) {
+                        delimeters.Add(part.Remove(part.Length - 1, 1));
+                    } else {
+                        throw new Exception("Custom delimeter format is incorrect.");
+                    }
+                }
+            }
+            return delimeters;
+        }
+    }    
 }
