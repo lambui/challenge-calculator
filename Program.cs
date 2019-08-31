@@ -23,6 +23,9 @@ namespace restaurantCalculator
                 if (number <= 0) { // deny negative number
                     return;
                 }
+                if (number > 1000) { // ignore number > 1000
+                    return;
+                }
                 numberList.Add(number);
             });
 
