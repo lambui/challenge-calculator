@@ -63,7 +63,7 @@ namespace restaurantCalculator {
             return Calculate(numbers, "*");
         }
 
-        public string Divine(List<int> numbers) {
+        public string Divide(List<int> numbers) {
             return Calculate(numbers, "/");
         }
 

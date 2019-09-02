@@ -110,7 +110,7 @@ namespace restaurantCalculator.Tests
         }
 
         [TestMethod]
-        public void Divine_AllowNegative_UpperBound1000_CorrectOutput() {
+        public void Divide_AllowNegative_UpperBound1000_CorrectOutput() {
             List<int> list = input.ToList();
             _calService.AllowNegative = true;
             _calService.UpperBound = 1000;
@@ -131,16 +131,16 @@ namespace restaurantCalculator.Tests
                 }
             }
             expected = $"divine: {expected.Remove(expected.Length-1, 1)} = {expectedValue}";
-            Assert.IsTrue(_calService.Divine(list).Equals(expected));
+            Assert.IsTrue(_calService.Divide(list).Equals(expected));
         }
 
         [TestMethod]
-        public void Divine_DontAllowNegative_UpperBound1000_ThrowsException() {
+        public void Divide_DontAllowNegative_UpperBound1000_ThrowsException() {
             _calService.AllowNegative = false;
             _calService.UpperBound = 1000;
             List<int> list = input.ToList();
             Assert.ThrowsException<Exception>(() => {
-                _calService.Divine(list);
+                _calService.Divide(list);
             });
         }
     }

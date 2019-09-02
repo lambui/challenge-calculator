@@ -7,6 +7,6 @@ namespace restaurantCalculator {
         string Sum(List<int> numbers);
         string Subtract(List<int> numbers);
         string Multiply(List<int> numbers);
-        string Divine(List<int> numbers);
+        string Divide(List<int> numbers);
     }
 }

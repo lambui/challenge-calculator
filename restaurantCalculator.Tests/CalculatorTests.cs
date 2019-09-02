@@ -267,9 +267,9 @@ namespace restaurantCalculator.Tests
             int[] numbers = { 11, 22, -33, 44 };
 
             string expectedValue = (11/22/-33/44).ToString();
-            string value = cal.Calculate(Calculator.CalculateOperation.DIVINE);
+            string value = cal.Calculate(Calculator.CalculateOperation.DIVIDE);
             Assert.IsTrue(value.Contains(expectedValue));
-            Assert.IsTrue(value.Equals(calService.Divine(numbers.ToList())));
+            Assert.IsTrue(value.Equals(calService.Divide(numbers.ToList())));
         }
     }
 }

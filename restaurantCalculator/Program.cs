@@ -30,7 +30,7 @@ namespace restaurantCalculator
                 Console.WriteLine(cal.Calculate(Calculator.CalculateOperation.ADD));
                 Console.WriteLine(cal.Calculate(Calculator.CalculateOperation.SUBSTRACT));
                 Console.WriteLine(cal.Calculate(Calculator.CalculateOperation.MULTIPLY));
-                Console.WriteLine(cal.Calculate(Calculator.CalculateOperation.DIVINE));
+                Console.WriteLine(cal.Calculate(Calculator.CalculateOperation.DIVIDE));
             }
         }
     }    

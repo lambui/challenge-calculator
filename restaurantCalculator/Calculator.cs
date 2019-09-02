@@ -5,7 +5,7 @@ using System.Linq;
 namespace restaurantCalculator {
     public class Calculator {
         public enum CalculateOperation {
-            ADD, SUBSTRACT, MULTIPLY, DIVINE
+            ADD, SUBSTRACT, MULTIPLY, DIVIDE
         }
         public string stringSequence {get; private set;} = "";
         private List<int> numberSequence;
@@ -85,8 +85,8 @@ namespace restaurantCalculator {
                     return _calService.Subtract(numberSequence);
                 case CalculateOperation.MULTIPLY: 
                     return _calService.Multiply(numberSequence);
-                case CalculateOperation.DIVINE: 
-                    return _calService.Divine(numberSequence);
+                case CalculateOperation.DIVIDE: 
+                    return _calService.Divide(numberSequence);
             }
         }
     }
